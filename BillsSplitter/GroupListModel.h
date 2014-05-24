@@ -2,6 +2,7 @@
 
 #include <QAbstractListModel>
 #include "Person.h"
+#include <vector>
 
 class Group;
 
@@ -15,11 +16,12 @@ public:
 	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual QVariant data(const QModelIndex &index, int role = 0) const;
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+	virtual void sort(int column , Qt::SortOrder o = Qt::AscendingOrder);
 
 	void addMember(Person *p);
 	void removeMember(const QModelIndex& index);
 	
 private:
 	Group *m_pGroup;
-
+	std::vector<int>		m_sortVector;
 };
