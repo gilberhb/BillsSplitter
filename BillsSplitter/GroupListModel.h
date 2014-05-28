@@ -20,6 +20,8 @@ public:
 
 	void addMember(Person *p);
 	void removeMember(const QModelIndex& index);
+	Person& GetMember(const QModelIndex& index) const;
+	bool memberCanBeRemoved(const QModelIndex &index) const;
 	
 private:
 	Group *m_pGroup;

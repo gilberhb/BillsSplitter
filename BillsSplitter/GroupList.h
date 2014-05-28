@@ -14,6 +14,7 @@ public:
 protected slots:
 	void slot_onAddGroupMember();
 	void slot_onRemoveGroupMember();
+	void slot_onListSelectionChanged(const QModelIndex&, const QModelIndex&);
 
 private:
 	Ui::Form	ui;

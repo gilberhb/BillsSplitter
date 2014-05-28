@@ -23,7 +23,7 @@ GroupListModel::~GroupListModel()
 
 int GroupListModel::rowCount(const QModelIndex &parent) const
 {
-	return m_pGroup->size();
+	return static_cast<int>(m_pGroup->size());
 }
 
 int GroupListModel::columnCount(const QModelIndex &parent) const
@@ -41,6 +41,15 @@ QVariant GroupListModel::data(QModelIndex const& index, int role) const
 	}
 }
 
+Person&	GroupListModel::GetMember(QModelIndex const& index) const
+{
+	if (index == QModelIndex())
+		throw std::runtime_error("Attempt to get member with invalid model index");
+	int row = index.row();
+	int memberNumber = m_sortVector.at(index.row());
+	return m_pGroup->member(memberNumber);
+}
+
 QVariant GroupListModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
 	if (section == 0 && orientation == Qt::Horizontal && role == Qt::DisplayRole)
@@ -51,7 +60,7 @@ QVariant GroupListModel::headerData(int section, Qt::Orientation orientation, in
 
 void GroupListModel::addMember(Person *p)
 {
-	beginInsertRows(QModelIndex(), m_pGroup->size(), m_pGroup->size());
+	beginInsertRows(QModelIndex(), static_cast<int>(m_pGroup->size()), static_cast<int>(m_pGroup->size()) );
 	m_pGroup->addGroupMember(p);
 	endInsertRows();
 	
@@ -98,4 +107,16 @@ void GroupListModel::sort( int column, Qt::SortOrder o )
 		boost::bind(&SortFunction, _1, _2, m_pGroup);
 	m_sortVector = IntegerSequence(1,m_pGroup->size());
 	std::sort( m_sortVector.begin(), m_sortVector.end(), sortFun );
+}
+
+bool GroupListModel::memberCanBeRemoved(const QModelIndex &index) const
+{
+	if (index == QModelIndex())
+		return false;
+	int row = index.row();
+	if (row < 0 || row >= m_pGroup->size())
+		throw std::runtime_error( (QString("Cannot remove member with row number: ") + QString::number(row)).toStdString() );
+	
+	int memberNumber = m_sortVector.at(row);
+	return m_pGroup->memberCanBeRemoved( m_pGroup->member(memberNumber).getID() );
 }

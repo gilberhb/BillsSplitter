@@ -5,16 +5,24 @@
 #include "MainWindow.h"
 #include "Person.h"
 #include "Group.h"
+#include <boost/multiprecision/cpp_dec_float.hpp>
+#include <QLocale>
 
 // include headers that implement a archive in simple text format
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+//#include <boost/archive/text_oarchive.hpp>
+//#include <boost/archive/text_iarchive.hpp>
+//#include <fstream>
+
+#include <boost/locale.hpp>
 #include <fstream>
 
 using std::cout;
+using std::cin;
 using std::endl;
 using std::ofstream;
 using std::ifstream;
+
+using boost::multiprecision::cpp_dec_float_50;
 
 int main(int argc, char* argv[])
 {
@@ -22,38 +30,11 @@ int main(int argc, char* argv[])
 	MainWindow mw;
 	mw.show();
 
-	//const char* textstr = "Hµnter";
-	{
-		Group g;
-		g.addGroupMember( new Person("Hunter G") );
-		g.addGroupMember( new Person("Phil S") );
-		ofstream stream ("test.txt");
-		boost::archive::text_oarchive ar (stream);
-		ar & g;
+	try {
+		cpp_dec_float_50 x = cpp_dec_float_50("3,14159");
+	} catch (std::exception& e) {
+		cout << e.what() << endl;
 	}
 
-	{
-		Group g;
-		ifstream stream ("test.txt");
-		boost::archive::text_iarchive ar (stream);
-		ar & g;
-		QMessageBox::warning(0,"Warning",QString("Group members: ") + QString::number(g.size()) + QString("<br />Names: ") + g.member(0).getName() + QString(",") + g.member(1).getName());
-	}
-
-	//{
-	//	Person p ( QString::fromUtf8(textstr) );
-	//	ofstream stream ("test.txt");
-	//	boost::archive::text_oarchive ar (stream);
-	//	ar & p;
-	//	QMessageBox::warning(0, "Warning 1", p.getName() + QString(" ") + QString::number(p.getID()) );
-	//}
-
-	//{
-	//	ifstream stream ("test.txt");
-	//	boost::archive::text_iarchive ar (stream);
-	//	Person p;
-	//	ar & p;
-	//	QMessageBox::warning(0, "Warning 2", p.getName() + QString(" ") + QString::number(p.getID()) );
-	//}
 	return app.exec();
 }
