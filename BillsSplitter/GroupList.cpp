@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <QInputDialog>
+#include <QMessageBox>
 
 using std::cerr;
 using std::endl;
@@ -36,13 +37,13 @@ void GroupList::slot_onAddGroupMember()
 {
 	try {
 		QString name = QInputDialog::getText(this, tr("Create New Group Member"), tr("Name: "));
-		if (name != QString()) {
+		if (name.trimmed() != QString()) {
 			GroupListModel *model = dynamic_cast<GroupListModel*>(ui.listView->model());
 			if (model)
-				model->addMember( new Person(name) );
+				model->addMember( new Person(name.trimmed()) );
 		}
 	} catch (std::exception &e) {
-		cerr << e.what() << endl;
+		QMessageBox::warning(this, tr("Warning"), QString::fromStdString(e.what()) );
 	}
 }
 

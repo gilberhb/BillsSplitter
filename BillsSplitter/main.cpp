@@ -30,11 +30,5 @@ int main(int argc, char* argv[])
 	MainWindow mw;
 	mw.show();
 
-	try {
-		cpp_dec_float_50 x = cpp_dec_float_50("3,14159");
-	} catch (std::exception& e) {
-		cout << e.what() << endl;
-	}
-
 	return app.exec();
 }

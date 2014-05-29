@@ -11,7 +11,11 @@ set(SOURCES	main.cpp
 		GroupList.cpp
 		GroupListModel.cpp
 		GroupListDialog.cpp
-		Receipt.cpp)
+		Receipt.cpp
+		ConvertToAmount.cpp
+		Payee.cpp
+		ReceiptUI.cpp
+		AddPayerDialog.cpp)
 set(HEADERS	MainWindow.h
 		Person.h
 		Group.h
@@ -19,11 +23,17 @@ set(HEADERS	MainWindow.h
 		GroupListModel.h
 		GroupListDialog.h
 		Receipt.h
-		ConvertToAmount.h)
+		ConvertToAmount.h
+		Payee.h
+		QStringSerialize.h
+		ReceiptUI.h
+		AddPayerDialog.h)
 
 qt5_wrap_ui(UI_HDRS	MainWindow.ui
 			GroupList.ui
-			GroupListDialog.ui)
+			GroupListDialog.ui
+			ReceiptUI.ui
+			AddPayerDialog.ui)
 add_executable(BillsSplitter ${SOURCES} ${HEADERS} ${UI_HDRS})
 target_link_libraries(BillsSplitter ${Qt5Widgets_LIBRARIES})
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Person.h"
+#include "Payee.h"
 #include <map>
 #include <boost/multiprecision/cpp_dec_float.hpp>
 #include <boost/serialization/map.hpp>
@@ -19,16 +20,22 @@ public:
 	void AddDebtorByAmount(const Person::IDType, const Amount);
 	void RemovePayer(const Person::IDType);
 	void RemoveDebtor(const Person::IDType);
+
+	void SetPayeeID(const int PayeeID);
+	void SetDescription(QString const& desc);
+	void SetCategory(const int CategoryID);
 	
 	const AmountMap&	GetPayers() const;
 	const AmountMap&	GetDebtors() const;
+	const Payee::IDType	GetPayeeID() const;
+	QString const&		GetDescription() const;
 
 	template<class Archive>
 	void serialize(Archive &ar, int version = 0) {
 		ar & m_Amount;
 		ar & m_Payers;
 		ar & m_Allocation;
-		ar & m_MerchantID;
+		ar & m_PayeeID;
 		ar & m_Desc;
 		ar & m_Category;
 	}
@@ -38,7 +45,7 @@ private:
 	std::map<Person::IDType, Amount> m_Payers;
 	std::map<Person::IDType, Amount> m_Debtors;
 
-	int			m_MerchantID;
-	QString		m_Desc;
-	int			m_Category;
+	Payee::IDType	m_PayeeID;
+	QString			m_Desc;
+	int				m_Category;
 };

@@ -15,6 +15,7 @@ public:
 
 public slots:
 	void slot_editGroupMembers();
+	void slot_addReceipt();
 
 private:
 	explicit MainWindow(const MainWindow& other); //no copying!

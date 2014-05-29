@@ -39,3 +39,28 @@ const Receipt::AmountMap&	Receipt::GetDebtors() const
 {
 	return m_Debtors;
 }
+
+void Receipt::SetPayeeID(const int PayeeID)
+{
+	m_PayeeID = PayeeID;
+}
+
+const Payee::IDType	Receipt::GetPayeeID() const
+{
+	return m_PayeeID;
+}
+
+QString const&		Receipt::GetDescription() const
+{
+	return m_Desc;
+}
+
+void Receipt::SetDescription(QString const& desc)
+{
+	m_Desc = desc;
+}
+
+void Receipt::SetCategory(const int CategoryID)
+{
+	m_Category = CategoryID;
+}

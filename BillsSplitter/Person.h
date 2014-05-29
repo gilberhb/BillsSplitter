@@ -5,26 +5,7 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/string.hpp>
-
-template<class Archive>
-inline void serialize( Archive& ar, QString& s, const unsigned int file_version )
-{
-	boost::serialization::split_free(ar, s, file_version);
-}
-
-template <class Archive>
-void save(Archive& ar, const QString& str, const int version)
-{
-	ar & str.toStdString();
-}
-
-template <class Archive>
-void load(Archive& ar, QString& str, const int version)
-{
-	std::string stdstr;
-	ar & stdstr;
-	str = QString::fromStdString( stdstr );
-}
+#include "QStringSerialize.h"
 
 class Person
 {
@@ -33,10 +14,12 @@ public:
 
 	explicit Person(QString const& name);
 	explicit Person(const Person& other);
-	Person();
+
 	
 	QString getName() const { return m_name; }
 	IDType getID() const { return m_ID; }
+	void SetName(QString const&);
+	void SetID(IDType id);
 
 	template <class Archive>
 	void serialize(Archive &ar, const int version) {
@@ -47,8 +30,10 @@ public:
 	bool operator==(Person const& other);
 	bool operator==(IDType id);
 private:
-
+	explicit Person();
 	QString m_name;
 	IDType	m_ID;
 
 };
+
+bool operator<(const Person&, const Person&);

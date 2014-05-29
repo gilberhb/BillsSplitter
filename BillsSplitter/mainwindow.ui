@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>528</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,8 +35,15 @@
     </property>
     <addaction name="actionGroup_Members"/>
    </widget>
+   <widget class="QMenu" name="menuAdd">
+    <property name="title">
+     <string>Add</string>
+    </property>
+    <addaction name="actionReceipt"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuAdd"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionExit">
@@ -47,6 +54,11 @@
   <action name="actionGroup_Members">
    <property name="text">
     <string>Group Members</string>
+   </property>
+  </action>
+  <action name="actionReceipt">
+   <property name="text">
+    <string>Receipt</string>
    </property>
   </action>
  </widget>

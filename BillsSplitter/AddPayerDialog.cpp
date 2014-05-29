@@ -1,0 +1,26 @@
+#include "AddPayerDialog.h"
+#include "Group.h"
+
+AddPayerDialog::AddPayerDialog(Group *g, QWidget *parent) :
+QDialog(parent),
+m_pGroup(g)
+{
+	if (g == NULL)
+		throw std::runtime_error("Null group passed to AddPayerDialog");
+	ui.setupUi(this);
+
+	SetupComboBox();
+}
+
+Person::IDType AddPayerDialog::GetSelectedID() const
+{
+	return static_cast<Person::IDType>( ui.comboBox->currentData().toInt() );
+}
+
+void AddPayerDialog::SetupComboBox()
+{
+	int N = m_pGroup->size();
+	for (int i = 0; i < N; ++i) {
+		ui.comboBox->addItem(m_pGroup->member(i).getName(), QVariant(m_pGroup->member(i).getID()));
+	}
+}
