@@ -4,6 +4,7 @@
 #include <boost/function.hpp>
 #include <algorithm>
 #include <iostream>
+#include <QLocale>
 
 using std::cout;
 using std::endl;
@@ -77,8 +78,8 @@ Person& Group::member(size_t i)
 
 bool MemberIsNotOnReceipt(Person::IDType ID, const Receipt& R )
 {
-	if (R.GetDebtors().count(ID) == 0 &&
-		R.GetPayers().count(ID) == 0)
+	if ( R.GetPayers().count(ID) == 0 &&
+		R.GetDebtors().count(ID) == 0 )
 		return true;
 	else
 		return false;
@@ -91,7 +92,6 @@ bool PayeeIsNotOnReceipt(Person::IDType ID, const Receipt& R )
 	else
 		return false;
 }
-
 
 bool NoReferencesInCollection(Person::IDType ID, const ReceiptCollection& rc)
 {
@@ -161,3 +161,43 @@ Person&   Group::GetMemberByID(Person::IDType id)
 	else
 		return *iter;
 }
+
+int Group::GetNumberOfReceiptCollections() const
+{
+	return m_Collections.size();
+}
+
+const ReceiptCollection&	Group::GetReceiptCollection(int i) const
+{
+	return m_Collections.at(i);
+}
+
+ReceiptCollection&	Group::GetReceiptCollection(int i)
+{
+	return m_Collections.at(i);
+}
+
+QString	Group::formatReceiptDescription(Receipt const& r)
+{
+	QLocale locale;
+	return locale.toCurrencyString( r.GetTotalAmount().convert_to<double>() );
+}
+
+bool CollectionNameEquals(const ReceiptCollection& rc, QString const& name)
+{
+	if (rc.GetName() == name)
+		return true;
+	else
+		return false;
+}
+
+void Group::AddReceiptCollection(QString const& name)
+{
+	if ( std::any_of(m_Collections.begin(), m_Collections.end(), 
+		            boost::bind(CollectionNameEquals, _1, name)) )
+		throw std::runtime_error("Can't add receipt collection with a name that's already been used for a previous receipt collection");
+	else {
+		m_Collections.push_back( new ReceiptCollection(name) );
+	}
+}
+

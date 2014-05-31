@@ -15,7 +15,10 @@ set(SOURCES	main.cpp
 		ConvertToAmount.cpp
 		Payee.cpp
 		ReceiptUI.cpp
-		AddPayerDialog.cpp)
+		AddPayerDialog.cpp
+		ReceiptCollection.cpp
+		ReceiptPayerModel.cpp
+		ReceiptCollectionModel.cpp)
 set(HEADERS	MainWindow.h
 		Person.h
 		Group.h
@@ -27,7 +30,10 @@ set(HEADERS	MainWindow.h
 		Payee.h
 		QStringSerialize.h
 		ReceiptUI.h
-		AddPayerDialog.h)
+		AddPayerDialog.h
+		ReceiptCollection.h
+		ReceiptPayerModel.h
+		ReceiptCollectionModel.h)
 
 qt5_wrap_ui(UI_HDRS	MainWindow.ui
 			GroupList.ui

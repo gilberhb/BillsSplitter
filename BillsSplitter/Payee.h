@@ -9,6 +9,7 @@
 class Payee
 {
 public:
+	explicit Payee();
 	typedef int IDType;
 	Payee(QString const& name);
 
@@ -24,7 +25,7 @@ public:
 	}
 
 private:
-	explicit Payee();
+	
 	QString m_Name;
 	IDType	m_ID;
 };

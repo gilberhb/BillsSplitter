@@ -1,5 +1,6 @@
 #include "AddPayerDialog.h"
 #include "Group.h"
+#include "ConvertToAmount.h"
 
 AddPayerDialog::AddPayerDialog(Group *g, QWidget *parent) :
 QDialog(parent),
@@ -16,6 +17,12 @@ Person::IDType AddPayerDialog::GetSelectedID() const
 {
 	return static_cast<Person::IDType>( ui.comboBox->currentData().toInt() );
 }
+
+Amount AddPayerDialog::GetAmount() const
+{
+	return StringToAmount( ui.lineEdit->text() );
+}
+
 
 void AddPayerDialog::SetupComboBox()
 {

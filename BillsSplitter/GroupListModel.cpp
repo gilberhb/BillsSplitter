@@ -73,7 +73,7 @@ void GroupListModel::removeMember( const QModelIndex& index )
 	if (index == QModelIndex())
 		return;
 	int row = index.row();
-	if (row < 0 || row >= m_pGroup->size())
+	if (row < 0 || row >= static_cast<int>(m_pGroup->size()) )
 		throw std::runtime_error( (QString("Cannot remove member with row number: ") + QString::number(row)).toStdString() );
 	
 	beginRemoveRows(QModelIndex(), row, row);
@@ -114,7 +114,7 @@ bool GroupListModel::memberCanBeRemoved(const QModelIndex &index) const
 	if (index == QModelIndex())
 		return false;
 	int row = index.row();
-	if (row < 0 || row >= m_pGroup->size())
+	if (row < 0 || row >= static_cast<int>(m_pGroup->size()) )
 		throw std::runtime_error( (QString("Cannot remove member with row number: ") + QString::number(row)).toStdString() );
 	
 	int memberNumber = m_sortVector.at(row);

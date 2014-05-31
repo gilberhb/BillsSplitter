@@ -10,6 +10,7 @@
 class Person
 {
 public:
+	explicit Person();
 	typedef unsigned int IDType;
 
 	explicit Person(QString const& name);
@@ -30,7 +31,7 @@ public:
 	bool operator==(Person const& other);
 	bool operator==(IDType id);
 private:
-	explicit Person();
+	
 	QString m_name;
 	IDType	m_ID;
 

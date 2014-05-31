@@ -3,8 +3,7 @@
 #include <QDialog>
 #include "ui_AddPayerDialog.h"
 #include "Person.h"
-
-class Group;
+#include "Group.h"
 
 class AddPayerDialog : public QDialog
 {
@@ -12,6 +11,7 @@ class AddPayerDialog : public QDialog
 public:
 	AddPayerDialog(Group *g, QWidget *parent = 0);
 	Person::IDType	GetSelectedID() const;
+	Amount			GetAmount() const;
 
 protected:
 	void SetupComboBox();

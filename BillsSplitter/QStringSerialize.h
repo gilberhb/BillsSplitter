@@ -1,4 +1,5 @@
 #pragma once
+#include <QString>
 
 template<class Archive>
 inline void serialize( Archive& ar, QString& s, const unsigned int file_version )

@@ -9,8 +9,7 @@
 #include <vector>
 #include <tuple>
 #include <QString>
-
-typedef boost::ptr_vector< Receipt >	ReceiptCollection;
+#include "ReceiptCollection.h"
 
 class Group
 {
@@ -25,6 +24,13 @@ public:
 	Person&   GetMemberByID(Person::IDType id);
 	bool	memberCanBeRemoved(Person::IDType id) const;
 	bool	payeeCanBeRemoved(Payee::IDType id) const;
+
+	int GetNumberOfReceiptCollections() const;
+	const ReceiptCollection&	GetReceiptCollection(int) const;
+	ReceiptCollection&	GetReceiptCollection(int);
+	void				AddReceiptCollection(QString const& name);
+
+	QString	formatReceiptDescription(Receipt const& r);
 
 	template <class Archive>
 	void serialize(Archive& ar, const unsigned int version)
