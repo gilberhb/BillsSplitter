@@ -18,7 +18,8 @@ set(SOURCES	main.cpp
 		AddPayerDialog.cpp
 		ReceiptCollection.cpp
 		ReceiptPayerModel.cpp
-		ReceiptCollectionModel.cpp)
+		ReceiptCollectionModel.cpp
+		PayeeListDialog.cpp)
 set(HEADERS	MainWindow.h
 		Person.h
 		Group.h
@@ -33,13 +34,15 @@ set(HEADERS	MainWindow.h
 		AddPayerDialog.h
 		ReceiptCollection.h
 		ReceiptPayerModel.h
-		ReceiptCollectionModel.h)
+		ReceiptCollectionModel.h
+		PayeeListDialog.h)
 
 qt5_wrap_ui(UI_HDRS	MainWindow.ui
 			GroupList.ui
 			GroupListDialog.ui
 			ReceiptUI.ui
-			AddPayerDialog.ui)
+			AddPayerDialog.ui
+			PayeeListDialog.ui)
 add_executable(BillsSplitter ${SOURCES} ${HEADERS} ${UI_HDRS})
 target_link_libraries(BillsSplitter ${Qt5Widgets_LIBRARIES})
 

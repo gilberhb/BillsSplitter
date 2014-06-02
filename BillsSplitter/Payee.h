@@ -24,6 +24,9 @@ public:
 		ar & m_ID;
 	}
 
+	bool operator==(Payee const& other) const;
+	bool operator==(IDType id) const;
+
 private:
 	
 	QString m_Name;

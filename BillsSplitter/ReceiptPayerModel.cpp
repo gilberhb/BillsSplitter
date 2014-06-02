@@ -39,6 +39,19 @@ int ReceiptPayerModel::columnCount(const QModelIndex &parent) const
 	return 2; //names and amounts
 }
 
+void ReceiptPayerModel::RemovePayer( const QModelIndex &index )
+{
+	if (index == QModelIndex())
+		return;
+	if ( index.row() >= 0 && index.row() < m_pReceipt->GetPayers().size() ) {
+		Receipt::AmountMap::const_iterator iter = m_pReceipt->GetPayers().begin();
+		std::advance( iter, index.row() );
+		beginResetModel();
+		m_pReceipt->RemovePayer( iter->first );
+		endResetModel();
+	}
+}
+
 QVariant ReceiptPayerModel::GetPayerName(const QModelIndex &index) const
 {
 	//Person::IDType id = std::get<0>( m_pReceipt->GetPayers().at( index.row() ) );

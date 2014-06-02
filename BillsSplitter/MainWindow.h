@@ -17,14 +17,17 @@ public:
 public slots:
 	void slot_editGroupMembers();
 	void slot_addReceipt();
+	void slot_addCollection();
 	void slot_OpenGroup();
 	void slot_SaveGroup();
+	void slot_EditPayees();
+	void slot_DeletePressed();
 
 private:
 	explicit MainWindow(const MainWindow& other); //no copying!
 	void connectSlots();
 	
 	Ui::MainWindow ui;
-	boost::scoped_ptr<Group>	m_pGroup;
+	boost::scoped_ptr<Group>					m_pGroup;
 	boost::scoped_ptr<ReceiptCollectionModel>	m_pDataModel;
 };

@@ -55,3 +55,58 @@ QVariant ReceiptCollectionModel::data(const QModelIndex &index, int role) const
 		return QVariant();
 	}
 }
+
+void ReceiptCollectionModel::AddCollection(const QString& name)
+{
+	if (m_pGroup->TestAddReceiptCollection(name)) {
+		beginInsertRows(QModelIndex(), m_pGroup->GetNumberOfReceiptCollections(), m_pGroup->GetNumberOfReceiptCollections());
+		m_pGroup->AddReceiptCollection(name);
+		endInsertRows();
+	} else {
+		throw std::runtime_error("Can't add new collection with that name.");
+	}
+}
+
+QModelIndex const&	ReceiptCollectionModel::GetCollectionIndex(QModelIndex const& index)
+{
+	if (index == QModelIndex())
+		throw std::runtime_error("Invalid index passed to GetCollection");
+	else if (index.parent() == QModelIndex())
+		return index;
+	else return GetCollectionIndex(index.parent());
+}
+
+void ReceiptCollectionModel::AddReceipt(const Receipt& R, QModelIndex const& selected)
+{
+	//find the modelindex for the receiptcollection
+	QModelIndex collection = GetCollectionIndex(selected);
+	beginInsertRows( collection, rowCount(collection), rowCount(collection) );
+	m_pGroup->GetReceiptCollection(collection.row()).AddReceipt(R);
+	endInsertRows();
+}
+
+void ReceiptCollectionModel::DeleteCollection(const QModelIndex& index)
+{
+	beginRemoveRows( QModelIndex(), index.row(), index.row() );
+	m_pGroup->RemoveReceiptCollection( index.row() );
+	endRemoveRows();
+}
+
+void ReceiptCollectionModel::DeleteReceipt(const QModelIndex& index)
+{
+	int collectionIndex = index.parent().row();
+	beginRemoveRows( index.parent(), index.row(), index.row() );
+	m_pGroup->GetReceiptCollection(collectionIndex).RemoveReceipt( index.row() );
+	endRemoveRows();
+}
+
+void ReceiptCollectionModel::DeleteItem(const QModelIndex& index)
+{
+	if (index == QModelIndex()) {
+		return;
+	} else if (index.parent() == QModelIndex()) {//this is a whole collection!
+		DeleteCollection(index);
+	} else {
+		DeleteReceipt(index);
+	}
+}

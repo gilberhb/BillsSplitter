@@ -10,6 +10,7 @@ class ReceiptCollection
 {
 public:
 	ReceiptCollection();
+	~ReceiptCollection();
 	ReceiptCollection(QString name);
 
 	void SetName(QString name);
@@ -19,6 +20,7 @@ public:
 	Receipt& GetReceipt(int);
 	const Receipt& GetReceipt(int) const;
 	int NumberOfReceipts() const;
+	void RemoveReceipt(size_t);
 
 	template <class Archive>
 	void serialize(Archive &ar, const unsigned int version = 0)

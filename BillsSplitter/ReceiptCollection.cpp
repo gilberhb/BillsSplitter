@@ -1,8 +1,19 @@
 #include "ReceiptCollection.h"
+#include <algorithm>
+#include <iostream>
+
+using std::cerr;
+using std::endl;
 
 ReceiptCollection::ReceiptCollection()
 {
 }
+
+ReceiptCollection::~ReceiptCollection()
+{
+	cerr << "Deleted ReceiptCollection" << endl;
+}
+
 
 ReceiptCollection::ReceiptCollection(QString name) :
 m_Name(name)
@@ -52,4 +63,11 @@ const Receipt& ReceiptCollection::GetReceipt(int i) const
 bool ReceiptCollection::operator==(const ReceiptCollection& other) const
 {
 	return (this->GetName() == other.GetName());
+}
+
+void ReceiptCollection::RemoveReceipt(size_t index)
+{
+	std::vector<Receipt>::iterator iter = std::begin(m_Receipts);
+	std::advance(iter, index);
+	m_Receipts.erase( iter );
 }

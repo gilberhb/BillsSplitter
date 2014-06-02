@@ -20,6 +20,7 @@ public:
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 	void AddPayer( Person::IDType id, Amount a );
+	void RemovePayer( const QModelIndex& index );
 
 protected:
 	QVariant GetPayerAmount(const QModelIndex &index) const;

@@ -14,6 +14,7 @@ public:
 	ReceiptUI(Group *g, QWidget *parent = 0);
 	void SetReceiptData(const Receipt &r);
 	Receipt	GetReceipt() const;
+	virtual int		exec();
 
 protected slots:
 	void slot_onAddPayer();
@@ -26,6 +27,10 @@ protected:
 	void SetCategory(int);
 	void SetPayee(Payee::IDType);
 	void SetDescription(QString);
+	void SetupPayeeCompleter();
+	void SetupCategoryCompleter();
+	Payee::IDType	ResolvePayeeID();
+	int				ResolveCategoryID();
 
 private:
 	Ui::ReceiptDialog ui;

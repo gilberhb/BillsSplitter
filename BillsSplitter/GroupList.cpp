@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QShortcut>
 
 using std::cerr;
 using std::endl;
@@ -18,6 +19,10 @@ GroupList::GroupList(QWidget *parent) :
 	connect(ui.pushButton_Remove, SIGNAL(clicked()), this, SLOT(slot_onRemoveGroupMember()));
 
 	ui.pushButton_Remove->setEnabled(false);
+
+	QShortcut *delete_shortcut = new QShortcut(this);
+	delete_shortcut->setKey(Qt::Key_Delete);
+	connect(delete_shortcut, SIGNAL(activated()), this, SLOT(slot_onRemoveGroupMember()));
 }
 
 void GroupList::setGroup(Group *g)
@@ -53,7 +58,7 @@ void GroupList::slot_onRemoveGroupMember()
 		QModelIndexList indices = ui.listView->selectionModel()->selectedRows();
 		if (indices.size() > 0) {
 			GroupListModel *model = dynamic_cast<GroupListModel*>(ui.listView->model());
-			if (model)
+			if ( model && model->memberCanBeRemoved(indices.front()) )
 				model->removeMember( indices.front() );
 		}
 	} catch (std::exception &e) {

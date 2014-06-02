@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>PayeeListDialog</class>
+ <widget class="QDialog" name="PayeeListDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>295</width>
-    <height>242</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0" colspan="2">
     <widget class="QListView" name="listView"/>
    </item>
    <item row="1" column="0">
-    <widget class="QPushButton" name="pushButton_Add">
+    <widget class="QPushButton" name="pushButton">
      <property name="text">
-      <string>Add Member</string>
+      <string>Add Payee</string>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QPushButton" name="pushButton_Remove">
+    <widget class="QPushButton" name="pushButton_2">
      <property name="text">
-      <string>Remove Member</string>
+      <string>Remove Payee</string>
      </property>
     </widget>
    </item>

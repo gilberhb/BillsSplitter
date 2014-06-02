@@ -35,3 +35,13 @@ bool operator<(Payee const& p1, Payee const& p2)
 {
 	return (p1.GetID() < p2.GetID());
 }
+
+bool Payee::operator==(Payee const& other) const
+{
+	return (this->m_ID == other.m_ID);
+}
+
+bool Payee::operator==(IDType id) const
+{
+	return (this->m_ID == id);
+}

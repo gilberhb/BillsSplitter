@@ -8,6 +8,7 @@ Receipt::Receipt()
 }
 
 
+
 void Receipt::AddPayerByAmount(const Person::IDType id, const Amount a)
 {
 	m_Payers[id] = a;		 

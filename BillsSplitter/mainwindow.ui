@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>528</height>
+    <height>510</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,6 +42,7 @@
      <string>Edit</string>
     </property>
     <addaction name="actionGroup_Members"/>
+    <addaction name="actionPayees"/>
    </widget>
    <widget class="QMenu" name="menuAdd">
     <property name="title">
@@ -83,6 +84,16 @@
   <action name="actionCollection">
    <property name="text">
     <string>Collection</string>
+   </property>
+  </action>
+  <action name="actionPayees">
+   <property name="text">
+    <string>Payees</string>
+   </property>
+  </action>
+  <action name="actionPayee">
+   <property name="text">
+    <string>Payee</string>
    </property>
   </action>
  </widget>
