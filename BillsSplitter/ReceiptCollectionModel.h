@@ -17,8 +17,11 @@ public:
 
 	void AddCollection(const QString& name);
 	QModelIndex const&	GetCollectionIndex(QModelIndex const& index);
+	Receipt&			GetReceipt(QModelIndex const& index);
+	ReceiptCollection&  GetReceiptCollection(QModelIndex const& index);
 	void AddReceipt(const Receipt& R, QModelIndex const& selected);
 	void DeleteItem(const QModelIndex& index);
+	void ChangeReceipt(const QModelIndex& index, Receipt& r);
 
 protected:
 	void DeleteReceipt(const QModelIndex& index);

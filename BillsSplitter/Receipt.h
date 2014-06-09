@@ -35,6 +35,7 @@ public:
 	const Payee::IDType	GetPayeeID() const;
 	const Amount		GetTotalAmount() const;
 	QString				GetDescription() const;
+	int					GetCategory() const;
 	boost::gregorian::date	GetDate() const;
 
 	template<class Archive>

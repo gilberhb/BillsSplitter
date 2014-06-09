@@ -22,6 +22,9 @@ public slots:
 	void slot_SaveGroup();
 	void slot_EditPayees();
 	void slot_DeletePressed();
+	void slot_MakeContextMenu(const QPoint&);
+	void slot_onBalanceCollection();
+	void slot_onEditReceipt();
 
 private:
 	explicit MainWindow(const MainWindow& other); //no copying!

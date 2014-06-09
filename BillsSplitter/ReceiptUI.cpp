@@ -75,7 +75,7 @@ void ReceiptUI::SetReceiptData(const Receipt& r)
 {
 	m_Receipt = r;
 	SetDate(m_Receipt.GetDate());
-	//SetCategory(int)
+	SetCategory(r.GetCategory());
 	SetPayee(m_Receipt.GetPayeeID());
 	SetDescription(m_Receipt.GetDescription());
 }
@@ -92,9 +92,14 @@ void ReceiptUI::SetDate(boost::gregorian::date const& d)
 	cerr << "Set date" << endl;
 }
 
-void ReceiptUI::SetCategory(int)
+void ReceiptUI::SetCategory(int catID)
 {
-
+	try {
+		QString cat = m_pGroup->GetCategoryList().at(catID);
+		ui.lineEdit_Category->setText(cat);
+	} catch (std::exception& e) {
+		cerr << e.what() << endl;
+	}
 }
 
 void ReceiptUI::SetPayee(Payee::IDType id)

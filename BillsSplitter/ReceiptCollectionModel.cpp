@@ -56,8 +56,11 @@ QVariant ReceiptCollectionModel::data(const QModelIndex &index, int role) const
 	}
 }
 
-void ReceiptCollectionModel::AddCollection(const QString& name)
+void ReceiptCollectionModel::AddCollection(const QString& name_in)
 {
+	QString name = name_in.trimmed();
+	if (name == QString())
+		return;
 	if (m_pGroup->TestAddReceiptCollection(name)) {
 		beginInsertRows(QModelIndex(), m_pGroup->GetNumberOfReceiptCollections(), m_pGroup->GetNumberOfReceiptCollections());
 		m_pGroup->AddReceiptCollection(name);
@@ -108,5 +111,41 @@ void ReceiptCollectionModel::DeleteItem(const QModelIndex& index)
 		DeleteCollection(index);
 	} else {
 		DeleteReceipt(index);
+	}
+}
+
+ReceiptCollection& ReceiptCollectionModel::GetReceiptCollection(const QModelIndex& index)
+{
+	if (index == QModelIndex() || index.parent() != QModelIndex()) {
+		throw std::runtime_error("GetReceipt passed a QModelIndex that doesn't refer to a ReceiptCollection.");
+	} else {
+		int collectionIndex = index.row();
+
+		return m_pGroup->GetReceiptCollection(collectionIndex);
+	}
+}
+
+Receipt& ReceiptCollectionModel::GetReceipt(const QModelIndex& index)
+{
+	if (index == QModelIndex() || index.parent() == QModelIndex()) { //this is a collection, not a receipt
+		throw std::runtime_error("GetReceipt passed a QModelIndex that doesn't refer to a receipt.");
+	} else {
+		int collectionIndex = index.parent().row();
+		int receiptIndex = index.row();
+		return m_pGroup->GetReceiptCollection(collectionIndex).GetReceipt(receiptIndex);
+	}
+}
+
+void ReceiptCollectionModel::ChangeReceipt(const QModelIndex& index, Receipt& r)
+{
+	if (index == QModelIndex() || index.parent() == QModelIndex()) { //this is a collection, not a receipt
+		throw std::runtime_error("ChangeReceipt passed a QModelIndex that doesn't refer to a receipt.");
+	} else {
+		int collectionIndex = index.parent().row();
+		int receiptIndex = index.row();
+		m_pGroup->GetReceiptCollection(collectionIndex).GetReceipt(receiptIndex) = r;
+		QVector<int> roles;
+		roles.push_back( Qt::DisplayRole | Qt::UserRole );
+		emit dataChanged( index, index, roles );
 	}
 }

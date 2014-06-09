@@ -25,11 +25,14 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_pGroup(new Group())
 {
 	ui.setupUi(this);
-	connectSlots();
+
 
 	m_pDataModel.reset( new ReceiptCollectionModel(m_pGroup.get()) );
 	ui.treeView->setModel( m_pDataModel.get() );
 	ui.treeView->setHeaderHidden(true);
+	ui.treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+	connectSlots();
 }
 
 MainWindow::~MainWindow()
@@ -49,7 +52,7 @@ void MainWindow::connectSlots()
 	QShortcut *shortcut = new QShortcut(this);
 	shortcut->setKey( Qt::Key_Delete );
 	connect( shortcut, SIGNAL(activated()), this, SLOT(slot_DeletePressed()) );
-	
+	connect(ui.treeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slot_MakeContextMenu(const QPoint &)));
 
 }
 
@@ -139,6 +142,67 @@ void MainWindow::slot_DeletePressed()
 			int result = QMessageBox::question(this,tr("Delete?"),tr("Are you sure you want to delete the selected item?"),QMessageBox::No,QMessageBox::Yes);
 			if (result == QMessageBox::Yes) {
 				m_pDataModel->DeleteItem( selected );
+			}
+		}
+	} catch (std::exception& e) {
+		cerr << e.what() << endl;
+	}
+}
+
+void MainWindow::slot_onBalanceCollection()
+{
+	try {
+		QModelIndex index = ui.treeView->selectionModel()->currentIndex();
+		ReceiptCollectionModel *model = dynamic_cast<ReceiptCollectionModel*>( ui.treeView->model() );
+		if (model && index != QModelIndex() ) {
+			ReceiptCollection& rc = model->GetReceiptCollection(index);
+			cerr << &rc << endl;
+		}
+	} catch (std::exception& e) {
+		cerr << e.what() << endl;
+	}
+}
+
+void MainWindow::slot_onEditReceipt()
+{
+	try {
+		QModelIndex index = ui.treeView->selectionModel()->currentIndex();
+		ReceiptCollectionModel *model = dynamic_cast<ReceiptCollectionModel*>( ui.treeView->model() );
+		if (model && index != QModelIndex() ) {
+			Receipt& r = model->GetReceipt( index );
+			ReceiptUI ui (m_pGroup.get());
+			ui.SetReceiptData(r);
+			ui.exec();
+
+			Receipt newReceipt = ui.GetReceipt();
+			model->ChangeReceipt(index, newReceipt); //let the model do this so that the view can update
+		}
+	} catch (std::exception& e) {
+		cerr << e.what() << endl;
+	}
+}
+
+void MainWindow::slot_MakeContextMenu(const QPoint& pt)
+{
+	QMenu menu;
+
+	try {
+		if ( ui.treeView->rect().contains( pt ) ) {
+			ReceiptCollectionModel *model = dynamic_cast<ReceiptCollectionModel*>( ui.treeView->model() );
+			if (model) {
+				QModelIndex index = ui.treeView->selectionModel()->currentIndex();
+				if (index != QModelIndex()) {
+					QModelIndex collection = model->GetCollectionIndex( ui.treeView->selectionModel()->currentIndex() );
+					if (collection == ui.treeView->selectionModel()->currentIndex() ) {
+						menu.addAction(tr("Balance Collection"),this,SLOT(slot_onBalanceCollection()));
+						QPoint ptGlobal = ui.treeView->mapToGlobal(pt);
+						menu.exec(ptGlobal);
+					} else {
+						menu.addAction(tr("Edit Receipt"),this,SLOT(slot_onEditReceipt()));
+						QPoint ptGlobal = ui.treeView->mapToGlobal(pt);
+						menu.exec(ptGlobal);
+					}
+				}
 			}
 		}
 	} catch (std::exception& e) {

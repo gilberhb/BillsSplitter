@@ -64,6 +64,11 @@ void Receipt::SetCategory(const int CategoryID)
 	m_Category = CategoryID;
 }
 
+int	Receipt::GetCategory() const
+{
+	return m_Category;
+}
+
 Amount operator+(const Amount& a1, Receipt::AmountMap::const_iterator payer)
 {
 	return a1 + payer->second;
