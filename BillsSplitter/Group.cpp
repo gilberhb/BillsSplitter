@@ -32,7 +32,7 @@ Payee::IDType Group::nextPayeeID() const
 		return 0;
 }
 
-bool NameIsNot(QString name, const Person &p)
+bool PersonNameIsNot(QString name, const Person &p)
 {
 	if ( p.getName() == name )
 		return false;
@@ -40,7 +40,7 @@ bool NameIsNot(QString name, const Person &p)
 		return true;
 }
 
-bool NameIsNot(QString name, const Payee &p)
+bool PayeeNameIsNot(QString name, const Payee &p)
 {
 	if ( p.GetName() == name )
 		return false;
@@ -51,7 +51,7 @@ bool NameIsNot(QString name, const Payee &p)
 void Group::addGroupMember(Person *p)
 {
 	if (std::all_of(m_groupMembers.begin(), m_groupMembers.end(), 
-		            boost::bind( static_cast< bool(*)(QString, const Person&)>(NameIsNot), p->getName(), _1 ) ) ) 
+		            boost::bind( PersonNameIsNot, p->getName(), _1 ) ) ) 
 	{
 		p->SetID(nextMemberID());
 		m_groupMembers.push_back( p );
@@ -63,7 +63,7 @@ void Group::addGroupMember(Person *p)
 void Group::addGroupPayee(Payee *p)
 {
 	if (std::all_of(m_Payees.begin(), m_Payees.end(), 
-					boost::bind( static_cast< bool(*)(QString, const Payee&)>(NameIsNot), p->GetName(), _1 ) ) ) 
+					boost::bind( PayeeNameIsNot, p->GetName(), _1 ) ) ) 
 	{
 		p->SetID(nextPayeeID());
 		m_Payees.push_back( p );
@@ -271,7 +271,7 @@ Payee& Group::payee(size_t i)
 bool Group::TestAddPayee(const QString& name) const
 {
 	if (std::all_of(m_Payees.begin(), m_Payees.end(), 
-					boost::bind( static_cast< bool(*)(QString, const Payee&)>(NameIsNot), name, _1 ) ) ) 
+					boost::bind( PayeeNameIsNot, name, _1 ) ) ) 
 		return true;
 	else 
 		return false;
