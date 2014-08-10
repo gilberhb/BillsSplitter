@@ -10,7 +10,8 @@ inline void serialize( Archive& ar, QString& s, const unsigned int file_version 
 template <class Archive>
 void save(Archive& ar, const QString& str, const int version)
 {
-	ar & str.toStdString();
+	std::string stdStr = str.toStdString();
+	ar & stdStr;
 }
 
 template <class Archive>

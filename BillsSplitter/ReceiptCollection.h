@@ -2,8 +2,8 @@
 
 #include <vector>
 #include <QString>
-#include "QStringSerialize.h"
 #include <boost/serialization/vector.hpp>
+#include "QStringSerialize.h"
 #include "Receipt.h"
 
 class ReceiptCollection

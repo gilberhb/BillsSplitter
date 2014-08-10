@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
-#include "ui_mainWindow.h"
+#include "ui_MainWindow.h"
 #include <boost/smart_ptr/scoped_ptr.hpp>
 #include "ReceiptCollectionModel.h"
 

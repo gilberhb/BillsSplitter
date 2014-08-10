@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
+#include <boost/multiprecision/cpp_dec_float.hpp>
 #include <fstream>
 #include <qfile.h>
 #include <QDialog>
